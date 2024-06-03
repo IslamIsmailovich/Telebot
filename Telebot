@@ -1,0 +1,23 @@
+import telebot
+import time
+bott = telebot.TeleBot("7253828150:AAEmt6qQvVJKFzxOPLYj5BBU5kG7IVankjo")
+responses = {}
+@bott.message_handler(commands=['start'])
+def start(message):
+    user_id = message.from_user.id
+    responses[user_id] = []
+    bott.send_message(message.chat.id, "Привет! как ты! ответишь на вопрос ?")
+    time.sleep(1)
+        ask_question(message, user_id)
+
+@bott.message_handler(func=lambda message: True)
+def handle_message(message,user_id):
+    if "хорошо" in message.text.lower() or "отлично" in message.text.lower():
+        responses[user_id].append(answer)
+        bott.send_message(message.chat.id, "Рад слышать! как прошел день? ")
+    elif "отлично" in message.text.lower() or "не очень" in message.text.lower():
+        bott.send_message(message.chat.id, "даа, у каждого по разному !   А о чем ты мечтаешь? ")
+    else:
+        bott.send_message(message.chat.id, "Класс на этом всё удачного дня. ")
+
+bott.polling()
